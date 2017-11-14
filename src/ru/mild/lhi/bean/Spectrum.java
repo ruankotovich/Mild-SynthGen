@@ -7,12 +7,18 @@ package ru.mild.lhi.bean;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import ru.mild.lhi.bean.genetic.GeneticAlgorithm;
+import ru.mild.lhi.bean.genetic.Individual;
+import ru.mild.lhi.bean.genetic.Maze;
+import ru.mild.lhi.bean.genetic.Population;
+import static ru.mild.lhi.bean.genetic.RobotController.maxGenerations;
 
 /**
  *
@@ -225,14 +231,59 @@ public class Spectrum {
                         }
                         cur = path.get(cur);
                     }
+                    int preMaze[][] = new int[matrixX][matrixY];
 
                     for (int y = 0; y < matrixY; y++) {
                         for (int x = 0; x < matrixX; x++) {
-
-                            System.out.print(graph.getVertexes()[x][y].getType() + " ");
+                            preMaze[x][y] = graph.getVertexes()[x][y].getType().toCode();
                         }
-                        System.out.println();
                     }
+
+                    Maze maze = new Maze(preMaze);
+                    GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
+                    Population population = ga.initPopulation(128);
+                    ga.evalPopulation(population, maze);
+                    // Keep track of current generation
+                    int generation = 1;
+                    // Start evolution loop
+                    while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
+                        // Print fittest individual from population
+                        Individual fittest = population.getFittest(0);
+                        System.out.println(
+                                "G" + generation + " Best solution (" + fittest.getFitness() + "): " + fittest.toString());
+
+                        // Apply crossover
+                        population = ga.crossoverPopulation(population);
+
+                        // Apply mutation
+                        population = ga.mutatePopulation(population);
+
+                        // Evaluate population
+                        ga.evalPopulation(population, maze);
+
+                        // Increment the current generation
+                        generation++;
+                    }
+
+                    System.out.println("Stopped after " + maxGenerations + " generations.");
+                    Individual fittest = population.getFittest(0);
+                    System.out.println("Best solution (" + fittest.getFitness() + "): " + fittest.toString());
+
+                    ArrayList<String> stringList;
+                    stringList = new ArrayList<>();
+
+                    String fittestSolution = fittest.toString();
+                    String lastString = null;
+
+                    for (int i = 0; i < fittestSolution.length(); i++) {
+                        if (i % 2 == 0) {
+                            lastString = String.valueOf(fittestSolution.charAt(i));
+                        } else {
+                            lastString = lastString + String.valueOf(fittestSolution.charAt(i));
+                            stringList.add(lastString);
+                        }
+                    }
+
                 }
                 break;
             }

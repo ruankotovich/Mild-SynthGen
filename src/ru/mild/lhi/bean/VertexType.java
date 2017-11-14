@@ -13,14 +13,17 @@ import java.util.EnumSet;
  * @author dmitry
  */
 public enum VertexType {
-    FLOOR('#', Color.WHITE.getRGB()), OBSTACLE('@', Color.ORANGE.getRGB()), START('O', Color.BLUE.getRGB()), END('X', Color.GREEN.getRGB()), WAYPOINT('W', Color.MAGENTA.getRGB());
+    // As a reminder: 0 = Floor 1 = Wall 2 = Starting position 3 = Route 4 =
+    FLOOR('#', Color.WHITE.getRGB(), 0), OBSTACLE('@', Color.ORANGE.getRGB(), 1), START('O', Color.BLUE.getRGB(), 2), END('X', Color.GREEN.getRGB(), 4), WAYPOINT('W', Color.MAGENTA.getRGB(), 3);
     private final int SENSIBILITY = 1000;
     private final char symbol;
+    private final int code;
     private final int RGB;
 
-    private VertexType(char symbol, int RGB) {
+    private VertexType(char symbol, int RGB, int code) {
         this.symbol = symbol;
         this.RGB = RGB;
+        this.code = code;
     }
 
     public int getRGB() {
@@ -42,6 +45,10 @@ public enum VertexType {
     @Override
     public String toString() {
         return String.valueOf(getSymbol());
+    }
+
+    public int toCode() {
+        return code;
     }
 
     public static VertexType detectByRGB(int RGB) {

@@ -41,9 +41,9 @@ public class WNDSelect extends JDialog {
     private int scale = 100;
     private Image image = null;
     private File lastImage;
-    private final WNDMainWIndow caller;
+    private final WNDMainWindow caller;
 
-    public WNDSelect(WNDMainWIndow calling) {
+    public WNDSelect(WNDMainWindow calling) {
 
         File defaultFolder = new File("Maps");
 
@@ -56,10 +56,10 @@ public class WNDSelect extends JDialog {
         try {
                setIconImage(ImageIO.read(getClass().getResourceAsStream("/ru/mild/lhi/gfx/labyhinth.png")));
         } catch (IOException ex) {
-            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        setTitle(WNDMainWIndow.MAIN_TITLE + " - Select Map");
+        setTitle(WNDMainWindow.MAIN_TITLE + " - Select Map");
 
         if (defaultFolder.exists()) {
             for (File f : defaultFolder.listFiles()) {

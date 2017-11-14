@@ -45,7 +45,7 @@ public class WNDBuild extends JFrame implements MouseListener {
     /**
      * Creates new form WNDSelect
      */
-    private final WNDMainWIndow caller;
+    private final WNDMainWindow caller;
     private JAPanel[][] panels;
 
     private JLabel lastSelected = null;
@@ -89,7 +89,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         }
     };
 
-    public WNDBuild(WNDMainWIndow calling, int cellBreadth, int totalCells) {
+    public WNDBuild(WNDMainWindow calling, int cellBreadth, int totalCells) {
 
         initComponents();
 
@@ -105,7 +105,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         try {
             setIconImage(ImageIO.read(getClass().getResourceAsStream("/ru/mild/lhi/gfx/labyhinth.png")));
         } catch (IOException ex) {
-            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         this.caller = calling;
@@ -114,7 +114,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         cb = cellBreadth + 1;
         tc = totalCells;
 
-        setTitle(WNDMainWIndow.MAIN_TITLE + " - Map Builder | New map");
+        setTitle(WNDMainWindow.MAIN_TITLE + " - Map Builder | New map");
 
         this.setLocationRelativeTo(null);
 
@@ -138,7 +138,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         }
     }
 
-    public WNDBuild(WNDMainWIndow calling, Spectrum pathBuilder, File fileName) {
+    public WNDBuild(WNDMainWindow calling, Spectrum pathBuilder, File fileName) {
 
         initComponents();
 
@@ -149,7 +149,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         try {
             setIconImage(ImageIO.read(getClass().getResourceAsStream("/ru/mild/lhi/gfx/labyhinth.png")));
         } catch (IOException ex) {
-            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         jLbEnd.addMouseListener(selectModel);
@@ -164,7 +164,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         tc = pathBuilder.getMatrixX();
         cb = pathBuilder.getCellWidth() + 1;
 
-        setTitle(WNDMainWIndow.MAIN_TITLE + " - Map Builder | Editing " + fileName.getName());
+        setTitle(WNDMainWindow.MAIN_TITLE + " - Map Builder | Editing " + fileName.getName());
 
         this.setLocationRelativeTo(null);
 

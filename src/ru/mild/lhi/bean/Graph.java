@@ -8,7 +8,6 @@ package ru.mild.lhi.bean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -29,7 +28,7 @@ public class Graph {
 
     public static enum ALGORITHM_TYPE {
 
-        DIJKSTRA("Dijkstra", true), BFS("Breadth-First Search", true), DFS("Depth-First Search", true), A_STAR("A Star", true), IDDFS("ID Depth-First Search", true), GEN_AGENT("Hatrix GENALG", false);
+        GEN_AGENT("AP.Hatrix GENALG", false), DIJKSTRA("Dijkstra", true), BFS("Breadth-First Search", true), DFS("Depth-First Search", true), A_STAR("A Star", true), IDDFS("ID Depth-First Search", true);
 
         private final String name;
         private final boolean singleRaster;

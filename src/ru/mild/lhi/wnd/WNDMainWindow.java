@@ -34,7 +34,7 @@ import ru.mild.lhi.bean.Vertex;
  *
  * @author dmitry
  */
-public class WNDMainWIndow extends javax.swing.JFrame {
+public class WNDMainWindow extends javax.swing.JFrame {
 
     /**
      * Creates new form WNDMainWIndow
@@ -51,7 +51,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
 
     public static final String MAIN_TITLE = "Mild :: LabyHinth Improved alpha v0.9";
 
-    public WNDMainWIndow() {
+    public WNDMainWindow() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         pathSpectrum = new Spectrum();
@@ -64,7 +64,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         try {
             setIconImage(ImageIO.read(getClass().getResourceAsStream("/ru/mild/lhi/gfx/labyhinth.png")));
         } catch (IOException ex) {
-            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         setTitle(MAIN_TITLE);
@@ -159,7 +159,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBroam.setText("Roam (SHIFT)");
         jBroam.setToolTipText("Roam in map using the selected Algorithm");
         jBroam.setBorder(null);
-        jBroam.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBroam.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBroam.setEnabled(false);
         jBroam.setFocusPainted(false);
         jBroam.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -195,7 +195,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBselect.setText("Open (SPACE)");
         jBselect.setToolTipText("Open a map in Maps folder");
         jBselect.setBorder(null);
-        jBselect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBselect.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBselect.setFocusPainted(false);
         jBselect.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jBselect.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +210,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBspectrum.setText("Spectrum (F2)");
         jBspectrum.setToolTipText("Shows the spectrum of current map");
         jBspectrum.setBorder(null);
-        jBspectrum.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBspectrum.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBspectrum.setEnabled(false);
         jBspectrum.setFocusPainted(false);
         jBspectrum.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -226,7 +226,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBexport.setText("Export Roam (F3)");
         jBexport.setToolTipText("Export the current Roam data");
         jBexport.setBorder(null);
-        jBexport.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBexport.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBexport.setEnabled(false);
         jBexport.setFocusPainted(false);
         jBexport.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -243,7 +243,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBrestart.setText("Reload (BS)");
         jBrestart.setToolTipText("Reload roaming");
         jBrestart.setBorder(null);
-        jBrestart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBrestart.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBrestart.setEnabled(false);
         jBrestart.setFocusPainted(false);
         jBrestart.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -268,7 +268,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/cogwheel.png"))); // NOI18N
         jButton6.setToolTipText("Build a new Map");
         jButton6.setBorder(null);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton6.setFocusPainted(false);
         jButton6.setPreferredSize(new java.awt.Dimension(40, 40));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -283,7 +283,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBedit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/pencil.png"))); // NOI18N
         jBedit.setToolTipText("Edit this current map");
         jBedit.setBorder(null);
-        jBedit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBedit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBedit.setEnabled(false);
         jBedit.setFocusPainted(false);
         jBedit.setPreferredSize(new java.awt.Dimension(40, 40));
@@ -306,7 +306,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBpath.setSelected(true);
         jBpath.setToolTipText("Build it with way");
         jBpath.setBorderPainted(false);
-        jBpath.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBpath.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBpath.setFocusable(false);
         jBpath.setRequestFocusEnabled(false);
         jBpath.addActionListener(new java.awt.event.ActionListener() {
@@ -321,7 +321,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBstop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/play.png"))); // NOI18N
         jBstop.setToolTipText("Roam in map using the selected Algorithm");
         jBstop.setBorder(null);
-        jBstop.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBstop.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBstop.setEnabled(false);
         jBstop.setFocusPainted(false);
         jBstop.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -337,7 +337,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jBskip.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/skipe.png"))); // NOI18N
         jBskip.setToolTipText("Roam in map using the selected Algorithm");
         jBskip.setBorder(null);
-        jBskip.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBskip.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBskip.setEnabled(false);
         jBskip.setFocusPainted(false);
         jBskip.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -414,7 +414,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jLbProcess.setText("Processando...");
 
         jLbPlus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/zoomIn.png"))); // NOI18N
-        jLbPlus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbPlus.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbPlus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jLbPlusMouseReleased(evt);
@@ -429,7 +429,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         jTperc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jTperc.setText("100 %");
         jTperc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTperc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTperc.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTperc.setOpaque(true);
         jTperc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -438,7 +438,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
         });
 
         jLbMinus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/zoomOut.png"))); // NOI18N
-        jLbMinus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbMinus.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbMinus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jLbMinusMouseReleased(evt);
@@ -546,6 +546,13 @@ public class WNDMainWIndow extends javax.swing.JFrame {
 
             if (!type.isSingleRaster()) {
                 // genetic and other stuff
+                Thread a = new Thread(() -> {
+                    jLbProcess.setText("Running a heavy algorithm, please wait...");
+                    this.repaint();
+                });
+                a.start();
+                a.join();
+
                 mapPath = pathSpectrum.runRoam(type);
             } else {
 
@@ -623,7 +630,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jBexportActionPerformed
 
@@ -673,7 +680,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
             jBstop.setEnabled(false);
             changeScale(100);
         } catch (IOException ex) {
-            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jBrestartActionPerformed
@@ -826,7 +833,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
                         try {
                             Thread.sleep(1, timer);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -877,7 +884,7 @@ public class WNDMainWIndow extends javax.swing.JFrame {
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(() -> {
-            new WNDMainWIndow().setVisible(true);
+            new WNDMainWindow().setVisible(true);
         });
     }
 

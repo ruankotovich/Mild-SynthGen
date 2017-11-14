@@ -33,9 +33,9 @@ public class WNDEngine extends JDialog {
      * Creates new form WNDEngine
      */
     private JPanel jPcell;
-    private WNDMainWIndow caller;
+    private WNDMainWindow caller;
 
-    public WNDEngine(WNDMainWIndow calling) {
+    public WNDEngine(WNDMainWindow calling) {
         this.caller = calling;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -43,10 +43,10 @@ public class WNDEngine extends JDialog {
         try {
             setIconImage(ImageIO.read(getClass().getResourceAsStream("/ru/mild/lhi/gfx/labyhinth.png")));
         } catch (IOException ex) {
-            Logger.getLogger(WNDMainWIndow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        setTitle(WNDMainWIndow.MAIN_TITLE + " - Build new map");
+        setTitle(WNDMainWindow.MAIN_TITLE + " - Build new map");
 
         jPcell = new JPanel();
         jPcell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
