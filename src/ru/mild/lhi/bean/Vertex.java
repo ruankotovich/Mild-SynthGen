@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Vertex {
 
-    private final VertexType type;
+    private VertexType type;
     private final List<Vertex> neighbors;
     private final int x, y;
 
@@ -36,6 +36,10 @@ public class Vertex {
     @Override
     public String toString() {
         return type.toString();
+    }
+
+    public void setType(VertexType type) {
+        this.type = type;
     }
 
     public String stringCoordinates() {

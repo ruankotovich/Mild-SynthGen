@@ -202,6 +202,54 @@ public class Spectrum {
 
     }
 
+    public Map<Vertex, Vertex> runRoam(Graph.ALGORITHM_TYPE type) throws Exception {
+
+        start = end = null;
+        graph = new Graph(matrixX, matrixY);
+        createMatrix();
+        buildWay();
+
+        System.gc();
+
+        if (start != null && end != null) {
+
+            switch (type) {
+                case GEN_AGENT: {
+                    Map<Vertex, Vertex> path = graph.astar(start, end);
+
+                    Vertex cur = end;
+
+                    while (cur != null) {
+                        if (cur != end && cur != start) {
+                            graph.getVertexes()[cur.getX()][cur.getY()].setType(VertexType.WAYPOINT);
+                        }
+                        cur = path.get(cur);
+                    }
+
+                    for (int y = 0; y < matrixY; y++) {
+                        for (int x = 0; x < matrixX; x++) {
+
+                            System.out.print(graph.getVertexes()[x][y].getType() + " ");
+                        }
+                        System.out.println();
+                    }
+                }
+                break;
+            }
+
+        } else if (start == null) {
+
+            throw new Exception("Start not found (blue square)");
+
+        } else {
+            throw new Exception("End not found (green square)");
+
+        }
+
+        return null;
+
+    }
+
     public Map<Vertex, Vertex> runSearch(Graph.ALGORITHM_TYPE type) throws Exception {
 
         start = end = null;

@@ -13,7 +13,7 @@ import java.util.EnumSet;
  * @author dmitry
  */
 public enum VertexType {
-    FLOOR('#', Color.WHITE.getRGB()), OBSTACLE('@', Color.ORANGE.getRGB()), START('O', Color.BLUE.getRGB()), END('X', Color.GREEN.getRGB());
+    FLOOR('#', Color.WHITE.getRGB()), OBSTACLE('@', Color.ORANGE.getRGB()), START('O', Color.BLUE.getRGB()), END('X', Color.GREEN.getRGB()), WAYPOINT('W', Color.MAGENTA.getRGB());
     private final int SENSIBILITY = 1000;
     private final char symbol;
     private final int RGB;
@@ -47,7 +47,6 @@ public enum VertexType {
     public static VertexType detectByRGB(int RGB) {
         for (VertexType v : EnumSet.allOf(VertexType.class)) {
             if (v.isClose(RGB)) {
-                //System.out.println(RGB + " with" + v.getRGB());
                 return v;
             }
         }

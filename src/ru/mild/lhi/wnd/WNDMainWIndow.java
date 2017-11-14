@@ -544,12 +544,17 @@ public class WNDMainWIndow extends javax.swing.JFrame {
 
             Graph.ALGORITHM_TYPE type = (Graph.ALGORITHM_TYPE) jComboBox1.getSelectedItem();
 
-            if (!isControlDown) {
-                mapPath = pathSpectrum.runSearch(type);
+            if (!type.isSingleRaster()) {
+                // genetic and other stuff
+                mapPath = pathSpectrum.runRoam(type);
             } else {
-                builder = pathSpectrum.runSilentSearch(type);
-            }
 
+                if (!isControlDown) {
+                    mapPath = pathSpectrum.runSearch(type);
+                } else {
+                    builder = pathSpectrum.runSilentSearch(type);
+                }
+            }
             long tempoFinal = System.currentTimeMillis();
             jLbProcess.setVisible(true);
 

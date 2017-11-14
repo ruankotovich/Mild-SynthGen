@@ -19,6 +19,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -102,6 +105,7 @@ public class WNDEngine extends JDialog {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        jSrow.setBackground(new java.awt.Color(102, 0, 0));
         jSrow.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
         jSrow.setForeground(new java.awt.Color(255, 255, 255));
         jSrow.setMajorTickSpacing(10);
@@ -111,9 +115,8 @@ public class WNDEngine extends JDialog {
         jSrow.setPaintLabels(true);
         jSrow.setPaintTicks(true);
         jSrow.setSnapToTicks(true);
-        jSrow.setValue(30);
         jSrow.setFocusable(false);
-        jSrow.setOpaque(false);
+        jSrow.setOpaque(true);
         jSrow.setValueIsAdjusting(true);
         jSrow.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -121,6 +124,7 @@ public class WNDEngine extends JDialog {
             }
         });
 
+        jSbreadth.setBackground(new java.awt.Color(102, 0, 0));
         jSbreadth.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
         jSbreadth.setForeground(new java.awt.Color(255, 255, 255));
         jSbreadth.setMajorTickSpacing(10);
@@ -131,7 +135,7 @@ public class WNDEngine extends JDialog {
         jSbreadth.setSnapToTicks(true);
         jSbreadth.setAutoscrolls(true);
         jSbreadth.setFocusable(false);
-        jSbreadth.setOpaque(false);
+        jSbreadth.setOpaque(true);
         jSbreadth.setValueIsAdjusting(true);
         jSbreadth.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -240,7 +244,25 @@ public class WNDEngine extends JDialog {
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
+
+                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        try {
+                            UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(WNDEngine.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InstantiationException ex) {
+                            Logger.getLogger(WNDEngine.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IllegalAccessException ex) {
+                            Logger.getLogger(WNDEngine.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (UnsupportedLookAndFeelException ex) {
+                            Logger.getLogger(WNDEngine.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
                 new WNDEngine(null).setVisible(true);
             }
         });

@@ -330,7 +330,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         jLbEnd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLbEnd.setText("End");
         jLbEnd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jLbEnd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbEnd.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbEnd.setOpaque(true);
 
         javax.swing.GroupLayout jPendLayout = new javax.swing.GroupLayout(jPend);
@@ -353,7 +353,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         jLbFloor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLbFloor.setText("Floor");
         jLbFloor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jLbFloor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbFloor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbFloor.setOpaque(true);
 
         javax.swing.GroupLayout jPfloorLayout = new javax.swing.GroupLayout(jPfloor);
@@ -376,7 +376,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         jLbStart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLbStart.setText("Start");
         jLbStart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jLbStart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbStart.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbStart.setOpaque(true);
 
         javax.swing.GroupLayout jPstartLayout = new javax.swing.GroupLayout(jPstart);
@@ -399,7 +399,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         jLbWall1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLbWall1.setText("Wall");
         jLbWall1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.red));
-        jLbWall1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbWall1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbWall1.setOpaque(true);
 
         javax.swing.GroupLayout jPwall1Layout = new javax.swing.GroupLayout(jPwall1);
@@ -416,13 +416,13 @@ public class WNDBuild extends JFrame implements MouseListener {
         jPwall2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPwall2.setPreferredSize(new java.awt.Dimension(40, 40));
 
-        jLbWall2.setBackground(new java.awt.Color(102, 0, 102));
+        jLbWall2.setBackground(java.awt.Color.magenta);
         jLbWall2.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
         jLbWall2.setForeground(new java.awt.Color(255, 255, 255));
         jLbWall2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLbWall2.setText("Wall");
+        jLbWall2.setText("Route");
         jLbWall2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jLbWall2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbWall2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbWall2.setOpaque(true);
 
         javax.swing.GroupLayout jPwall2Layout = new javax.swing.GroupLayout(jPwall2);
@@ -445,7 +445,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         jLbWall3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLbWall3.setText("Wall");
         jLbWall3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jLbWall3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLbWall3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLbWall3.setOpaque(true);
 
         javax.swing.GroupLayout jPwall3Layout = new javax.swing.GroupLayout(jPwall3);
@@ -461,7 +461,7 @@ public class WNDBuild extends JFrame implements MouseListener {
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/change.png"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -545,7 +545,7 @@ public class WNDBuild extends JFrame implements MouseListener {
         jSPitens.setBackground(new java.awt.Color(255, 255, 255));
 
         jPitens.setBackground(new java.awt.Color(0, 0, 0));
-        jPitens.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        jPitens.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPitensLayout = new javax.swing.GroupLayout(jPitens);
         jPitens.setLayout(jPitensLayout);
