@@ -7,9 +7,11 @@ package ru.mild.lhi.bean;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Stack;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -77,7 +79,13 @@ public class Spectrum {
         for (int y = 0; y < matrixY; y++) {
             for (int x = 0; x < matrixX; x++) {
                 VertexType type = VertexType.detectByRGB(imageSource.getRGB((x * cellWidth) + halfCellWidth, (y * cellHeight) + halfCellHeight));
+
                 Vertex v = new Vertex(type, x, y);
+                
+                if (type == VertexType.WAYPOINT) {
+                    graph.addCheckpoint(v);
+                }
+                
                 graph.getVertexes()[x][y] = v;
                 if (type == VertexType.OBSTACLE) {
                     verifieds.put(v, Boolean.TRUE);
@@ -205,7 +213,7 @@ public class Spectrum {
 
     }
 
-    public Map<Vertex, Vertex> runRoam(Graph.ALGORITHM_TYPE type) throws Exception {
+    public Queue<Vertex> runRoam(Graph.ALGORITHM_TYPE type) throws Exception {
 
         start = end = null;
         graph = new Graph(matrixX, matrixY);
@@ -220,18 +228,12 @@ public class Spectrum {
                 case GEN_AGENT: {
                     Map<Vertex, Vertex> mape = graph.astar(start, end);
                     Vertex cur = end;
-                    int minPath = -1;
-
-                    while (cur != null) {
-                        cur = mape.get(cur);
-                        ++minPath;
-                    }
 
                     // Create GA object
-                    GeneticAlgorithm ga = new GeneticAlgorithm(graph, start, end, 200, 0.001, 0.95, 20);
+                    GeneticAlgorithm ga = new GeneticAlgorithm(graph, start, end, 1000, 0.001, 0.95, 20);
 
                     // Initialize population
-                    Population population = ga.initPopulation(graph.getHeight() * graph.getWidth());
+                    Population population = ga.initPopulation((graph.getHeight() * graph.getWidth()) * 2);
 
                     // Evaluate population
                     ga.evalPopulation(population);
@@ -249,10 +251,10 @@ public class Spectrum {
                      * if there's a member of the population whose chromosome is
                      * all ones, we're done!
                      */
-                    while (ga.isTerminationConditionMet(population, minPath) == false) {
+                    while (ga.isTerminationConditionMet(population, graph.getCheckpointCount(), end) == false) {
                         // Print fittest individual from population
                         Individual fittest = population.getFittest(0);
-                        System.out.println("Best solution: fitness" + fittest.getFitness() + " at " + fittest.toString());
+                        System.out.println("Best solution: fitness " + fittest.getFitness() + " at " + fittest.toString());
 
                         // Apply crossover
                         population = ga.crossoverPopulation(population);
@@ -274,22 +276,62 @@ public class Spectrum {
                      */
                     System.out.println("Found solution in " + generation + " generations");
                     Individual fittest = population.getFittest(0);
-                    System.out.println("Best solution: fitness" + fittest.getFitness() + " at " + fittest.toString());
+                    System.out.println("Best solution: fitness " + fittest.getFitness() + " at " + fittest.toString());
 
                     String individualSolution = population.getFittest(0).toString();
                     String lastString = null;
+
+                    Map<Vertex, Vertex> burningMap = new HashMap<>();
+                    Queue<Vertex> stackVertex = new ArrayDeque<>();
+
+                    Vertex curVer = start;
+                    Vertex curtexVer = null;
+                    stackVertex.add(curVer);
+
                     for (int i = 0; i < individualSolution.length(); i++) {
                         if (i % 2 == 0) {
                             lastString = String.valueOf(individualSolution.charAt(i));
                         } else {
                             lastString = lastString + String.valueOf(individualSolution.charAt(i));
                             int code = Integer.parseInt(lastString);
-                            System.out.println(Graph.Direction.fromCode(code).toString());
+
+                            switch (Graph.Direction.fromCode(code)) {
+                                case DOWN:
+                                    System.out.println("D");
+                                    curtexVer = graph.getVertexIfItsFloor(curVer.getX(), curVer.getY() + 1);
+                                    break;
+                                case LEFT:
+                                    System.out.println("L");
+                                    curtexVer = graph.getVertexIfItsFloor(curVer.getX() - 1, curVer.getY());
+                                    break;
+                                case RIGHT:
+                                    System.out.println("R");
+                                    curtexVer = graph.getVertexIfItsFloor(curVer.getX() + 1, curVer.getY());
+                                    break;
+                                case UP:
+                                    System.out.println("U");
+                                    curtexVer = graph.getVertexIfItsFloor(curVer.getX(), curVer.getY() - 1);
+                                    break;
+                                case INVALID: {
+
+                                }
+                            }
+
+                            if (curtexVer != null) {
+
+                                stackVertex.add(curtexVer);
+                                curVer = curtexVer;
+                                if (curVer == end) {
+                                    System.out.println("end");
+                                    break;
+                                }
+                            }
                         }
 
                     }
-
+                    return stackVertex;
                 }
+
             }
         } else if (start == null) {
 

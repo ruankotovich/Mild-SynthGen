@@ -24,9 +24,21 @@ import java.util.Stack;
 public class Graph {
 
     private Vertex vertexes[][] = null;
+    private final ArrayList<Vertex> waypoints = new ArrayList<>();
     private final Set<Vertex> verifieds;
     private final int width;
     private final int height;
+
+    public int waypointsDistance(Vertex currentVertex) {
+        int accumulation = Integer.MAX_VALUE;
+        for (Vertex wp : waypoints) {
+            int accumulationInner = manhattanDistance(wp, currentVertex);
+            if (accumulationInner < accumulation) {
+                accumulation = accumulationInner;
+            }
+        }
+        return accumulation;
+    }
 
     public static enum Direction {
         UP("UP"), DOWN("DOWN"), LEFT("LEFT"), RIGHT("RIGHT"), INVALID("X");
@@ -125,6 +137,14 @@ public class Graph {
             in.getNeighbors().add(out);
             out.getNeighbors().add(in);
         }
+    }
+
+    public int getCheckpointCount() {
+        return waypoints.size();
+    }
+
+    public void addCheckpoint(Vertex v) {
+        waypoints.add(v);
     }
 
     public Map<Vertex, Vertex> bfs(Vertex initial, Vertex search) {

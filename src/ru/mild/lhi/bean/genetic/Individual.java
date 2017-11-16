@@ -1,5 +1,10 @@
 package ru.mild.lhi.bean.genetic;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import ru.mild.lhi.bean.Vertex;
+
 /**
  * An "Individual" represents a single candidate solution. The core piece of
  * information about an individual is its "chromosome", which is an encoding of
@@ -22,6 +27,12 @@ public class Individual {
 
     private int[] chromosome;
     private double fitness = -1;
+    private final Set<Vertex> checkpointsFound;
+    private Vertex lastVertex = null;
+
+    public void setLastVertex(Vertex _lastVertex) {
+        this.lastVertex = _lastVertex;
+    }
 
     /**
      * Initializes individual with specific chromosome
@@ -29,8 +40,21 @@ public class Individual {
      * @param chromosome The chromosome to give individual
      */
     public Individual(int[] chromosome) {
+        this.checkpointsFound = new HashSet<>();
         // Create individual chromosome
         this.chromosome = chromosome;
+    }
+
+    public void pushCheckpoint(Vertex check) {
+        checkpointsFound.add(check);
+    }
+
+    public void resetSet() {
+        checkpointsFound.clear();
+    }
+
+    public int getCheckpointsCount() {
+        return checkpointsFound.size();
     }
 
     /**
@@ -43,9 +67,16 @@ public class Individual {
      * (for instance, in a traveling salesman problem, this would be an invalid
      * solution).
      *
-     * @param chromosomeLength The length of the individuals chromosome
+     * @param way
+     * @param end
+     * @return
      */
+    public boolean finished(int way, Vertex end) {
+        return this.getLastVertex() == end && (way == this.getCheckpointsCount());
+    }
+
     public Individual(int chromosomeLength) {
+        this.checkpointsFound = new HashSet<>();
 
         this.chromosome = new int[chromosomeLength];
         for (int gene = 0; gene < chromosomeLength; gene++) {
@@ -126,5 +157,13 @@ public class Individual {
             output += this.chromosome[gene];
         }
         return output;
+    }
+
+    int getIndispensable() {
+        return checkpointsFound.size() + 1;
+    }
+
+    Vertex getLastVertex() {
+        return lastVertex;
     }
 }

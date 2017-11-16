@@ -115,6 +115,7 @@ public class WNDEngine extends JDialog {
         jSrow.setPaintLabels(true);
         jSrow.setPaintTicks(true);
         jSrow.setSnapToTicks(true);
+        jSrow.setValue(10);
         jSrow.setFocusable(false);
         jSrow.setOpaque(true);
         jSrow.setValueIsAdjusting(true);

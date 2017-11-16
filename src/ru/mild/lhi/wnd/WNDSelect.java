@@ -4,12 +4,10 @@
  * and open the template in the editor.
  */
 
-/*
+ /*
 * Author : Ruan Barros 
 * Date : ?/04/2016
-*/
-
-
+ */
 package ru.mild.lhi.wnd;
 
 import java.awt.Color;
@@ -54,7 +52,7 @@ public class WNDSelect extends JDialog {
         this.setLocationRelativeTo(null);
 
         try {
-               setIconImage(ImageIO.read(getClass().getResourceAsStream("/ru/mild/lhi/gfx/labyhinth.png")));
+            setIconImage(ImageIO.read(getClass().getResourceAsStream("/ru/mild/lhi/gfx/labyhinth.png")));
         } catch (IOException ex) {
             Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }

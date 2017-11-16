@@ -40,7 +40,7 @@ public class AllOnesGA {
          * straightforward: if there's a member of the population whose
          * chromosome is all ones, we're done!
          */
-        while (ga.isTerminationConditionMet(population,0) == false) {
+        while (ga.isTerminationConditionMet(population, 0, null) == false) {
             // Print fittest individual from population
             System.out.println("Best solution: " + population.getFittest(0).toString());
 

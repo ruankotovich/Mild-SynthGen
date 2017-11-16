@@ -2,6 +2,7 @@ package ru.mild.lhi.bean.genetic;
 
 import ru.mild.lhi.bean.Graph;
 import ru.mild.lhi.bean.Vertex;
+import ru.mild.lhi.bean.VertexType;
 
 /**
  * The GeneticAlgorithm class is our main abstraction for managing the
@@ -100,8 +101,12 @@ public class GeneticAlgorithm {
         String lastString = null;
         Vertex currentVertex = start;
 
-        double fitness;
+        individual.setLastVertex(null);
+        individual.resetSet();
+
+        double fitness = Double.MAX_VALUE;
         int moves = 0;
+        double distanceFromWaypoints = 0;
 
         for (int i = 0; i < individualSolution.length(); i++) {
             if (i % 2 == 0) {
@@ -132,17 +137,32 @@ public class GeneticAlgorithm {
                 }
 
                 ++moves;
+
                 if (got != null) {
+
                     currentVertex = got;
-                    if (got == end) {
+
+                    if (got.getType() == VertexType.WAYPOINT) {
+                        individual.pushCheckpoint(got);
+                    } else if (got == end) {
                         break;
                     }
+
                 }
+
+                distanceFromWaypoints += moves * graph.waypointsDistance(currentVertex);
 
             }
         }
 
-        fitness = graph.manhattanDistance(currentVertex, end) + moves;
+        individual.setLastVertex(currentVertex);
+
+        if (individual.getLastVertex() == end) {
+            fitness = Math.pow(distanceFromWaypoints, (1f / individual.getIndispensable()));
+            System.out.println("(" + distanceFromWaypoints + ") per " + individual.getIndispensable() + "=" + fitness);
+
+        }
+
         individual.setFitness(fitness);
 
         return fitness;
@@ -177,11 +197,13 @@ public class GeneticAlgorithm {
      * we can simply stop evolving once we've reached a fitness of one.
      *
      * @param population
+     * @param parameter
+     * @param end
      * @return boolean True if termination condition met, otherwise, false
      */
-    public boolean isTerminationConditionMet(Population population, int parameter) {
+    public boolean isTerminationConditionMet(Population population, int parameter, Vertex end) {
         for (Individual individual : population.getIndividuals()) {
-            if (individual.getFitness() <= parameter) {
+            if (individual.finished(parameter, end)) {
                 return true;
             }
         }

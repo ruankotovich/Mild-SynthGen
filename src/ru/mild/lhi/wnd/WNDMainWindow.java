@@ -553,7 +553,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
                 a.start();
                 a.join();
 
-                mapPath = pathSpectrum.runRoam(type);
+                builder = pathSpectrum.runRoam(type);
             } else {
 
                 if (!isControlDown) {
@@ -562,36 +562,36 @@ public class WNDMainWindow extends javax.swing.JFrame {
                     builder = pathSpectrum.runSilentSearch(type);
                 }
             }
+
             long tempoFinal = System.currentTimeMillis();
             jLbProcess.setVisible(true);
-            if (type.isSingleRaster()) {
-                if (!isControlDown) {
+            if (!isControlDown && type.isSingleRaster()) {
 
-                    jBskip.setEnabled(false);
-                    jBstop.setEnabled(false);
+                jBskip.setEnabled(false);
+                jBstop.setEnabled(false);
 
-                    jLbImage.setIcon(new ImageIcon(pathSpectrum.paintedPath(mapPath, jBpath.isSelected())));
+                jLbImage.setIcon(new ImageIcon(pathSpectrum.paintedPath(mapPath, jBpath.isSelected())));
 
-                } else if (builder != null ? builder.size() > 0 : false) {
-                    jBskip.setEnabled(true);
-                    jBstop.setEnabled(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Impossible to find a way!", "Path error", JOptionPane.ERROR_MESSAGE);
-                    jBrestart.doClick();
-                }
-                if (!isControlDown) {
-                    jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms using " + pathSpectrum.getPathCount() + " paths");
-                } else {
-                    jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms and entered halt mode");
-                }
-                jBroam.setEnabled(false);
-                jBspectrum.setEnabled(true);
-                jBrestart.setEnabled(true);
-
-                if (!isControlDown) {
-                    jBexport.setEnabled(true);
-                }
+            } else if (builder != null ? builder.size() > 0 : false) {
+                jBskip.setEnabled(true);
+                jBstop.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Impossible to find a way!", "Path error", JOptionPane.ERROR_MESSAGE);
+                jBrestart.doClick();
             }
+            if (!isControlDown && type.isSingleRaster()) {
+                jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms using " + pathSpectrum.getPathCount() + " paths");
+            } else {
+                jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms and entered halt mode");
+            }
+            jBroam.setEnabled(false);
+            jBspectrum.setEnabled(true);
+            jBrestart.setEnabled(true);
+
+            if (!isControlDown && type.isSingleRaster()) {
+                jBexport.setEnabled(true);
+            }
+
             jBedit.setEnabled(false);
             changeScale(scale);
         } catch (Exception ex) {
@@ -829,20 +829,20 @@ public class WNDMainWindow extends javax.swing.JFrame {
                 processing = true;
                 new Thread(() -> {
                     while (!builder.isEmpty() && jBstop.isEnabled()) {
-                        skip();
+                        skip(false);
                         try {
-                            Thread.sleep(1, timer);
+                            Thread.sleep(10, timer);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
-                    skip();
+                    skip(false);
                     processing = false;
                 }).start();
 
             } else {
-                skip();
+                skip(false);
             }
 
         } else {
@@ -863,12 +863,12 @@ public class WNDMainWindow extends javax.swing.JFrame {
         jBskip.setIcon(new ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/skipe.png")));
     }//GEN-LAST:event_jBskipMouseExited
 
-    private void skip() {
+    private void skip(boolean sugestEnd) {
         if (builder != null ? builder.size() > 0 : false) {
             lastBuilt = builder.poll();
             pathSpectrum.paintVertex(lastBuilt, jLbImage, true);
             jLbProcess.setText(jComboBox1.getSelectedItem().toString() + " pass " + (++pass) + " in " + timer + " ns");
-        } else {
+        } else if (sugestEnd) {
             int choose = JOptionPane.showConfirmDialog(null, "End found! \n\nDo you want to solve the map?", "Warning", JOptionPane.INFORMATION_MESSAGE);
 
             if (choose == JOptionPane.YES_OPTION) {
