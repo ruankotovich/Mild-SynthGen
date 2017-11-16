@@ -564,34 +564,34 @@ public class WNDMainWindow extends javax.swing.JFrame {
             }
             long tempoFinal = System.currentTimeMillis();
             jLbProcess.setVisible(true);
+            if (type.isSingleRaster()) {
+                if (!isControlDown) {
 
-            if (!isControlDown) {
+                    jBskip.setEnabled(false);
+                    jBstop.setEnabled(false);
 
-                jBskip.setEnabled(false);
-                jBstop.setEnabled(false);
+                    jLbImage.setIcon(new ImageIcon(pathSpectrum.paintedPath(mapPath, jBpath.isSelected())));
 
-                jLbImage.setIcon(new ImageIcon(pathSpectrum.paintedPath(mapPath, jBpath.isSelected())));
+                } else if (builder != null ? builder.size() > 0 : false) {
+                    jBskip.setEnabled(true);
+                    jBstop.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Impossible to find a way!", "Path error", JOptionPane.ERROR_MESSAGE);
+                    jBrestart.doClick();
+                }
+                if (!isControlDown) {
+                    jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms using " + pathSpectrum.getPathCount() + " paths");
+                } else {
+                    jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms and entered halt mode");
+                }
+                jBroam.setEnabled(false);
+                jBspectrum.setEnabled(true);
+                jBrestart.setEnabled(true);
 
-            } else if (builder != null ? builder.size() > 0 : false) {
-                jBskip.setEnabled(true);
-                jBstop.setEnabled(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Impossible to find a way!", "Path error", JOptionPane.ERROR_MESSAGE);
-                jBrestart.doClick();
+                if (!isControlDown) {
+                    jBexport.setEnabled(true);
+                }
             }
-            if (!isControlDown) {
-                jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms using " + pathSpectrum.getPathCount() + " paths");
-            } else {
-                jLbProcess.setText("The " + jComboBox1.getSelectedItem().toString() + " algorithm performed in " + (tempoFinal - tempoMsInicial) + "ms and entered halt mode");
-            }
-            jBroam.setEnabled(false);
-            jBspectrum.setEnabled(true);
-            jBrestart.setEnabled(true);
-
-            if (!isControlDown) {
-                jBexport.setEnabled(true);
-            }
-
             jBedit.setEnabled(false);
             changeScale(scale);
         } catch (Exception ex) {

@@ -7,7 +7,6 @@ package ru.mild.lhi.bean;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
@@ -16,9 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ru.mild.lhi.bean.genetic.GeneticAlgorithm;
 import ru.mild.lhi.bean.genetic.Individual;
-import ru.mild.lhi.bean.genetic.Maze;
 import ru.mild.lhi.bean.genetic.Population;
-import static ru.mild.lhi.bean.genetic.RobotController.maxGenerations;
 
 /**
  *
@@ -221,36 +218,41 @@ public class Spectrum {
 
             switch (type) {
                 case GEN_AGENT: {
-                    Map<Vertex, Vertex> path = graph.astar(start, end);
-
+                    Map<Vertex, Vertex> mape = graph.astar(start, end);
                     Vertex cur = end;
+                    int minPath = -1;
 
                     while (cur != null) {
-                        if (cur != end && cur != start) {
-                            graph.getVertexes()[cur.getX()][cur.getY()].setType(VertexType.WAYPOINT);
-                        }
-                        cur = path.get(cur);
-                    }
-                    int preMaze[][] = new int[matrixX][matrixY];
-
-                    for (int y = 0; y < matrixY; y++) {
-                        for (int x = 0; x < matrixX; x++) {
-                            preMaze[x][y] = graph.getVertexes()[x][y].getType().toCode();
-                        }
+                        cur = mape.get(cur);
+                        ++minPath;
                     }
 
-                    Maze maze = new Maze(preMaze);
-                    GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
-                    Population population = ga.initPopulation(128);
-                    ga.evalPopulation(population, maze);
+                    // Create GA object
+                    GeneticAlgorithm ga = new GeneticAlgorithm(graph, start, end, 200, 0.001, 0.95, 20);
+
+                    // Initialize population
+                    Population population = ga.initPopulation(graph.getHeight() * graph.getWidth());
+
+                    // Evaluate population
+                    ga.evalPopulation(population);
+
                     // Keep track of current generation
                     int generation = 1;
-                    // Start evolution loop
-                    while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
+
+                    /**
+                     * Start the evolution loop
+                     *
+                     * Every genetic algorithm problem has different criteria
+                     * for finishing. In this case, we know what a perfect
+                     * solution looks like (we don't always!), so our
+                     * isTerminationConditionMet method is very straightforward:
+                     * if there's a member of the population whose chromosome is
+                     * all ones, we're done!
+                     */
+                    while (ga.isTerminationConditionMet(population, minPath) == false) {
                         // Print fittest individual from population
                         Individual fittest = population.getFittest(0);
-                        System.out.println(
-                                "G" + generation + " Best solution (" + fittest.getFitness() + "): " + fittest.toString());
+                        System.out.println("Best solution: fitness" + fittest.getFitness() + " at " + fittest.toString());
 
                         // Apply crossover
                         population = ga.crossoverPopulation(population);
@@ -259,35 +261,36 @@ public class Spectrum {
                         population = ga.mutatePopulation(population);
 
                         // Evaluate population
-                        ga.evalPopulation(population, maze);
+                        ga.evalPopulation(population);
 
                         // Increment the current generation
                         generation++;
                     }
 
-                    System.out.println("Stopped after " + maxGenerations + " generations.");
+                    /**
+                     * We're out of the loop now, which means we have a perfect
+                     * solution on our hands. Let's print it out to confirm that
+                     * it is actually all ones, as promised.
+                     */
+                    System.out.println("Found solution in " + generation + " generations");
                     Individual fittest = population.getFittest(0);
-                    System.out.println("Best solution (" + fittest.getFitness() + "): " + fittest.toString());
+                    System.out.println("Best solution: fitness" + fittest.getFitness() + " at " + fittest.toString());
 
-                    ArrayList<String> stringList;
-                    stringList = new ArrayList<>();
-
-                    String fittestSolution = fittest.toString();
+                    String individualSolution = population.getFittest(0).toString();
                     String lastString = null;
-
-                    for (int i = 0; i < fittestSolution.length(); i++) {
+                    for (int i = 0; i < individualSolution.length(); i++) {
                         if (i % 2 == 0) {
-                            lastString = String.valueOf(fittestSolution.charAt(i));
+                            lastString = String.valueOf(individualSolution.charAt(i));
                         } else {
-                            lastString = lastString + String.valueOf(fittestSolution.charAt(i));
-                            stringList.add(lastString);
+                            lastString = lastString + String.valueOf(individualSolution.charAt(i));
+                            int code = Integer.parseInt(lastString);
+                            System.out.println(Graph.Direction.fromCode(code).toString());
                         }
+
                     }
 
                 }
-                break;
             }
-
         } else if (start == null) {
 
             throw new Exception("Start not found (blue square)");

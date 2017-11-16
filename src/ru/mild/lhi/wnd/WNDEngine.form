@@ -46,13 +46,13 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jPanel2" alignment="1" pref="776" max="32767" attributes="0"/>
                       <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
                       <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
                       <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jSrow" alignment="0" pref="448" max="32767" attributes="0"/>
+                      <Component id="jSrow" alignment="0" pref="776" max="32767" attributes="0"/>
                       <Component id="jSbreadth" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jTbreadth" pref="448" max="32767" attributes="0"/>
+                      <Component id="jTbreadth" pref="776" max="32767" attributes="0"/>
                       <Component id="jTrow" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -114,7 +114,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="448" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="776" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -135,10 +135,10 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="majorTickSpacing" type="int" value="10"/>
-            <Property name="maximum" type="int" value="200"/>
-            <Property name="minimum" type="int" value="10"/>
-            <Property name="minorTickSpacing" type="int" value="10"/>
+            <Property name="majorTickSpacing" type="int" value="1"/>
+            <Property name="maximum" type="int" value="50"/>
+            <Property name="minimum" type="int" value="4"/>
+            <Property name="minorTickSpacing" type="int" value="1"/>
             <Property name="paintLabels" type="boolean" value="true"/>
             <Property name="paintTicks" type="boolean" value="true"/>
             <Property name="snapToTicks" type="boolean" value="true"/>

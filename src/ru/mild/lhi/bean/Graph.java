@@ -25,6 +25,38 @@ public class Graph {
 
     private Vertex vertexes[][] = null;
     private final Set<Vertex> verifieds;
+    private final int width;
+    private final int height;
+
+    public static enum Direction {
+        UP("UP"), DOWN("DOWN"), LEFT("LEFT"), RIGHT("RIGHT"), INVALID("X");
+
+        private final String name;
+
+        @Override
+        public String toString() {
+            return name();
+        }
+
+        private Direction(String name) {
+            this.name = name;
+        }
+
+        public static Direction fromCode(int code) {
+            switch (code) {
+                case 00:
+                    return UP;
+                case 01:
+                    return DOWN;
+                case 10:
+                    return LEFT;
+                case 11:
+                    return RIGHT;
+                default:
+                    return INVALID;
+            }
+        }
+    }
 
     public static enum ALGORITHM_TYPE {
 
@@ -65,13 +97,23 @@ public class Graph {
         return verifieds;
     }
 
-    public void setVertexes(Vertex[][] vertexes) {
-        this.vertexes = vertexes;
+    public int manhattanDistance(Vertex o1, Vertex o2) {
+        return Math.abs(o1.getX() - o2.getX()) + Math.abs(o1.getY() - o2.getY());
     }
 
     public Graph(int x, int y) {
+        width = x;
+        height = y;
         vertexes = new Vertex[x][y];
         verifieds = new HashSet<>();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     void addVertex(Vertex v, int x, int y) {
@@ -131,6 +173,19 @@ public class Graph {
             return null;
         }
          */
+    }
+
+    public Vertex getVertexIfItsFloor(int x, int y) {
+        if (x >= 0 && y >= 0 && x < width && y < height) {
+
+            Vertex candidate = vertexes[x][y];
+
+            if (candidate.getType() != VertexType.OBSTACLE) {
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
     public Queue<Vertex> progressiveBfs(Vertex initial, Vertex search) {
