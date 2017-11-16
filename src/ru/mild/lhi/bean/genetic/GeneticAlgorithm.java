@@ -159,7 +159,7 @@ public class GeneticAlgorithm {
 
         if (individual.getLastVertex() == end) {
             fitness = Math.pow(distanceFromWaypoints, (1f / individual.getIndispensable()));
-            System.out.println("(" + distanceFromWaypoints + ") per " + individual.getIndispensable() + "=" + fitness);
+//            System.out.println("(" + distanceFromWaypoints + ") per " + individual.getIndispensable() + "=" + fitness);
 
         }
 

@@ -17,8 +17,12 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -48,6 +52,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
     private int pass = 0;
     private boolean processing = false;
     private int timer = 100;
+    private Map<Vertex, Integer> visiteds = new HashMap<>();
 
     public static final String MAIN_TITLE = "Mild :: LabyHinth Improved alpha v0.9";
 
@@ -108,6 +113,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
         jBpath = new javax.swing.JToggleButton();
         jBstop = new javax.swing.JButton();
         jBskip = new javax.swing.JButton();
+        jBgoenv = new javax.swing.JButton();
         jLbProcess = new javax.swing.JLabel();
         jLbPlus = new javax.swing.JLabel();
         jTperc = new javax.swing.JLabel();
@@ -357,6 +363,32 @@ public class WNDMainWindow extends javax.swing.JFrame {
             }
         });
 
+        jBgoenv.setBackground(new java.awt.Color(51, 0, 0));
+        jBgoenv.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jBgoenv.setForeground(new java.awt.Color(255, 255, 255));
+        jBgoenv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/goenv.png"))); // NOI18N
+        jBgoenv.setToolTipText("Roam in map using the selected Algorithm");
+        jBgoenv.setBorder(null);
+        jBgoenv.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jBgoenv.setEnabled(false);
+        jBgoenv.setFocusPainted(false);
+        jBgoenv.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jBgoenv.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jBgoenvMouseMoved(evt);
+            }
+        });
+        jBgoenv.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jBgoenvMouseExited(evt);
+            }
+        });
+        jBgoenv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBgoenvActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -377,7 +409,9 @@ public class WNDMainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBstop, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBskip, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBskip, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBgoenv, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBrestart, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -398,14 +432,17 @@ public class WNDMainWindow extends javax.swing.JFrame {
                     .addComponent(jBexport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBspectrum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 8, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jBpath)
                             .addComponent(jBedit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jBrestart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBstop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBskip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBstop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jBskip, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBgoenv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLbProcess.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -514,6 +551,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jBselectActionPerformed
 
     public void buildNrun(File imageFile) {
+        visiteds.clear();
         if (imageFile != null) {
             lastImage = imageFile;
             try {
@@ -527,6 +565,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error opening image!", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
+        jBgoenv.setEnabled(false);
         jBexport.setEnabled(false);
         jBspectrum.setEnabled(false);
         jBrestart.setEnabled(false);
@@ -535,7 +574,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
     private void jBroamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBroamActionPerformed
 
         boolean isControlDown = evt.getModifiers() == 18;
-
+        visiteds.clear();
         pass = 0;
 
         try {
@@ -547,7 +586,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
             if (!type.isSingleRaster()) {
                 // genetic and other stuff
                 Thread a = new Thread(() -> {
-                    jLbProcess.setText("Running a heavy algorithm, please wait...");
+                    jLbProcess.setText("Heavy algorithm has ended.");
                     this.repaint();
                 });
                 a.start();
@@ -569,12 +608,12 @@ public class WNDMainWindow extends javax.swing.JFrame {
 
                 jBskip.setEnabled(false);
                 jBstop.setEnabled(false);
-
                 jLbImage.setIcon(new ImageIcon(pathSpectrum.paintedPath(mapPath, jBpath.isSelected())));
 
             } else if (builder != null ? builder.size() > 0 : false) {
                 jBskip.setEnabled(true);
                 jBstop.setEnabled(true);
+                jBgoenv.setEnabled(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Impossible to find a way!", "Path error", JOptionPane.ERROR_MESSAGE);
                 jBrestart.doClick();
@@ -671,6 +710,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
             BufferedImage img = ImageIO.read(lastImage);
             pathSpectrum.build(img);
             jLbImage.setIcon(new ImageIcon(img));
+            jBgoenv.setEnabled(false);
             jBrestart.setEnabled(false);
             jBspectrum.setEnabled(false);
             jBexport.setEnabled(false);
@@ -678,6 +718,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
             jBroam.setEnabled(true);
             jBskip.setEnabled(false);
             jBstop.setEnabled(false);
+            visiteds.clear();
             changeScale(100);
         } catch (IOException ex) {
             Logger.getLogger(WNDMainWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -816,12 +857,14 @@ public class WNDMainWindow extends javax.swing.JFrame {
     private void jBstopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBstopActionPerformed
         jBstop.setEnabled(false);
         jBskip.setEnabled(false);
+        jBgoenv.setEnabled(false);
         jBrestart.doClick();
+        visiteds.clear();
     }//GEN-LAST:event_jBstopActionPerformed
 
     private void jBskipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBskipActionPerformed
         boolean isControlDown = evt.getModifiers() == 18;
-
+        visiteds.clear();
         if (!processing) {
 
             if (!isControlDown) {
@@ -863,19 +906,44 @@ public class WNDMainWindow extends javax.swing.JFrame {
         jBskip.setIcon(new ImageIcon(getClass().getResource("/ru/mild/lhi/gfx/skipe.png")));
     }//GEN-LAST:event_jBskipMouseExited
 
+    private void jBgoenvMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBgoenvMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBgoenvMouseMoved
+
+    private void jBgoenvMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBgoenvMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBgoenvMouseExited
+
+    private void jBgoenvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBgoenvActionPerformed
+        skip(true);
+    }//GEN-LAST:event_jBgoenvActionPerformed
+
     private void skip(boolean sugestEnd) {
         if (builder != null ? builder.size() > 0 : false) {
+            int times = 0;
             lastBuilt = builder.poll();
-            pathSpectrum.paintVertex(lastBuilt, jLbImage, true);
-            jLbProcess.setText(jComboBox1.getSelectedItem().toString() + " pass " + (++pass) + " in " + timer + " ns");
-        } else if (sugestEnd) {
-            int choose = JOptionPane.showConfirmDialog(null, "End found! \n\nDo you want to solve the map?", "Warning", JOptionPane.INFORMATION_MESSAGE);
 
-            if (choose == JOptionPane.YES_OPTION) {
-                jBrestart.doClick();
-                jBroam.doClick();
+            if (sugestEnd) {
+                Integer tm = visiteds.get(lastBuilt);
+                if (tm != null) {
+                    visiteds.put(lastBuilt, ++tm);
+                    times = tm;
+                } else {
+                    visiteds.put(lastBuilt, 0);
+                }
             }
+
+            pathSpectrum.paintVertex(lastBuilt, jLbImage, true, times);
+            jLbProcess.setText(jComboBox1.getSelectedItem().toString() + " pass " + (++pass) + " in " + timer + " ns");
         }
+//        else {
+//            int choose = JOptionPane.showConfirmDialog(null, "End found! \n\nDo you want to solve the map?", "Warning", JOptionPane.INFORMATION_MESSAGE);
+//
+//            if (choose == JOptionPane.YES_OPTION) {
+//                jBrestart.doClick();
+//                jBroam.doClick();
+//            }
+//        }
     }
 
     /**
@@ -891,6 +959,7 @@ public class WNDMainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBedit;
     private javax.swing.JButton jBexport;
+    private javax.swing.JButton jBgoenv;
     private javax.swing.JToggleButton jBpath;
     private javax.swing.JButton jBrestart;
     private javax.swing.JButton jBroam;

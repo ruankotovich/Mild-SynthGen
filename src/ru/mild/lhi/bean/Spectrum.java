@@ -6,6 +6,7 @@
 package ru.mild.lhi.bean;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -81,11 +82,11 @@ public class Spectrum {
                 VertexType type = VertexType.detectByRGB(imageSource.getRGB((x * cellWidth) + halfCellWidth, (y * cellHeight) + halfCellHeight));
 
                 Vertex v = new Vertex(type, x, y);
-                
+
                 if (type == VertexType.WAYPOINT) {
                     graph.addCheckpoint(v);
                 }
-                
+
                 graph.getVertexes()[x][y] = v;
                 if (type == VertexType.OBSTACLE) {
                     verifieds.put(v, Boolean.TRUE);
@@ -147,16 +148,35 @@ public class Spectrum {
         return imageSource;
     }
 
-    public void paintVertex(Vertex vertex, JLabel source, boolean walked) {
+    public static BufferedImage copyImage(BufferedImage source) {
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        return b;
+    }
+
+    public void paintVertex(Vertex vertex, JLabel source, boolean walked, int times) {
         Vertex v;
         pathCount = 0;
         int matx = (cellWidth / 2) - 1;
         int maty = (cellHeight / 2) - 1;
+        BufferedImage toPaint = imageSource;
 
         if (walked) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    imageSource.setRGB((vertex.getX() * cellWidth) + matx + i, (vertex.getY() * cellHeight) + maty + j, Color.BLACK.getRGB());
+            if (times == 0) {
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        toPaint.setRGB((vertex.getX() * cellWidth) + matx + i, (vertex.getY() * cellHeight) + maty + j, Color.BLACK.getRGB());
+                    }
+                }
+            } else {
+                toPaint = copyImage(imageSource);
+                for (int i = 0; i < 3 + times; i++) {
+                    for (int j = 0; j < 3 + times; j++) {
+                        toPaint.setRGB((vertex.getX() * cellWidth) + matx + i, (vertex.getY() * cellHeight) + maty + j, Color.BLACK.getRGB());
+                    }
+
                 }
             }
 
@@ -164,13 +184,13 @@ public class Spectrum {
 
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    imageSource.setRGB((vertex.getX() * cellWidth) + matx + i, (vertex.getY() * cellHeight) + maty + j, Color.WHITE.getRGB());
+                    toPaint.setRGB((vertex.getX() * cellWidth) + matx + i, (vertex.getY() * cellHeight) + maty + j, Color.WHITE.getRGB());
                 }
             }
 
         }
 
-        source.setIcon(new ImageIcon(imageSource));
+        source.setIcon(new ImageIcon(toPaint));
         System.gc();
     }
 
@@ -230,7 +250,7 @@ public class Spectrum {
                     Vertex cur = end;
 
                     // Create GA object
-                    GeneticAlgorithm ga = new GeneticAlgorithm(graph, start, end, 1000, 0.001, 0.95, 20);
+                    GeneticAlgorithm ga = new GeneticAlgorithm(graph, start, end, 1000, 0.015, 0.95, 100);
 
                     // Initialize population
                     Population population = ga.initPopulation((graph.getHeight() * graph.getWidth()) * 2);
